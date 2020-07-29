@@ -1,0 +1,1 @@
+# local-outlier-factor-plugin
