@@ -11,3 +11,5 @@ Requires wheel.
 This can be included in a requirements.txt as: `git+https://github.com/manaakiwhenua/local-outlier-factor-plugin.git@master`
 
 `master` branch is for release, changes should be proposed in a separate branch and a PR submitted for merging into master, including rebuilding the source distributions.
+
+(TODO: replace with a Github Action)
