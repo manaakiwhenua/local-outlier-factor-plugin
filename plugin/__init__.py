@@ -40,7 +40,7 @@ LOGGER = getLogger(__name__)
 
 #: Process metadata and description
 PROCESS_METADATA = {
-    'version': '1.0.0',
+    'version': '1.0.1',
     'id': 'local-outlier-factor',
     'title': 'Local outlier factor (LOF)',
     'description': 'The local outlier factor (LOF) algorithm computes a score indicating the degree of abnormality of each input (observation), in a set of such observations. It measures the local density deviation of a given data point with respect to its neighbors. It considers as outliers the samples that have a substantially lower density than their neighbors.',
@@ -281,8 +281,7 @@ class LOFProcessor(BaseProcessor):
             outputFile = path.split(dataset)[-1]
             outputPath = path.join(outputDir, outputFile)
             # Write output
-            # mode = 0o444 # Read-only (for owner, group and others)
-            mode = 0o777 # TODO dangerous
+            mode = 0o444 # Read-only (for owner, group and others)
             makedirs(outputDir, mode=mode, exist_ok=True)
             LOGGER.debug(outputPath)
             gdf.to_csv(outputPath)
