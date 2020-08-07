@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='local-outlier-factor-plugin',
-    version='0.1.0',
+    version='1.0.0',
     description='pygeoapi plugin that wraps sklearn.neighbors.LocalOutlierFactor for doing outlier/novelty detection on geospatial (point) datasets',
     url='https://github.com/manaakiwhenua/local-outlier-factor-plugin',
     author='Richard Law',

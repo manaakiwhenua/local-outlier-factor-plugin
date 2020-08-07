@@ -40,7 +40,7 @@ LOGGER = getLogger(__name__)
 
 #: Process metadata and description
 PROCESS_METADATA = {
-    'version': '0.0.1',
+    'version': '1.0.0',
     'id': 'local-outlier-factor',
     'title': 'Local outlier factor (LOF)',
     'description': 'The local outlier factor (LOF) algorithm computes a score indicating the degree of abnormality of each input (observation), in a set of such observations. It measures the local density deviation of a given data point with respect to its neighbors. It considers as outliers the samples that have a substantially lower density than their neighbors.',

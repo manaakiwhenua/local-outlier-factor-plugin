@@ -29,18 +29,18 @@
 
 from os import makedirs, path
 from logging import getLogger
+from numpy import vstack
 
 from pygeoapi.process.base import BaseProcessor
 
 from geopandas import read_file
-from numpy import vstack
 from sklearn.neighbors import LocalOutlierFactor
 
 LOGGER = getLogger(__name__)
 
 #: Process metadata and description
 PROCESS_METADATA = {
-    'version': '0.0.1',
+    'version': '1.0.0',
     'id': 'local-outlier-factor',
     'title': 'Local outlier factor (LOF)',
     'description': 'The local outlier factor (LOF) algorithm computes a score indicating the degree of abnormality of each input (observation), in a set of such observations. It measures the local density deviation of a given data point with respect to its neighbors. It considers as outliers the samples that have a substantially lower density than their neighbors.',
@@ -214,7 +214,7 @@ PROCESS_METADATA = {
     'outputs': [{
         'id': 'dataset',
         'title': 'Dataset',
-        'description': 'The (or one of) the original non-training CSV dataset/s, with an additional LOF column with the computed outlier or novelty score for each row. The new column will be labelled according to the input `output_column` parameter. Inliners are labelled 1, while outliers are labelled -1.',
+        'description': 'The (or one of) the original non-training CSV dataset(s), with an additional LOF column with the computed outlier or novelty score for each row. The new column will be labelled according to the input `output_column` parameter. Inliners are labelled 1, while outliers are labelled -1.',
         'output': {
             'formats': [{
                 'default': True,
@@ -231,14 +231,14 @@ LOF_OMIT = ['training_dataset', 'datasets', 'output_column']
 class LOFProcessor(BaseProcessor):
     """Local outlier factor (LOF) processor"""
 
-    def __init__(self, provider_def):
+    def __init__(self, processor_def):
         """
         Initialize object
-        :param provider_def: provider definition
+        :param processor_def: provider definition
         :returns: pygeoapi.process.hello_world.HelloWorldProcessor
         """
 
-        BaseProcessor.__init__(self, provider_def, PROCESS_METADATA)
+        BaseProcessor.__init__(self, processor_def, PROCESS_METADATA)
 
     def execute(self, data):
         LOGGER.debug(data)
@@ -278,18 +278,28 @@ class LOFProcessor(BaseProcessor):
             LOGGER.debug(gdf)
             # Make output directory at same level as input
             outputDir = path.join(path.dirname(dataset), 'output')
-            outputPath = path.join(outputDir, path.split(dataset)[-1])
+            outputFile = path.split(dataset)[-1]
+            outputPath = path.join(outputDir, outputFile)
             # Write output
-            mode = 0o444 # Read-only (for owner, group and others)
+            # mode = 0o444 # Read-only (for owner, group and others)
+            mode = 0o777 # TODO dangerous
             makedirs(outputDir, mode=mode, exist_ok=True)
             LOGGER.debug(outputPath)
             gdf.to_csv(outputPath)
         # Return path to output, perhaps direct URL?
         # TODO return URL to dataset for download, or return actual dataset
-        return [{
-            'id': 'datasets',
-            'value': datasets
-        }]
+        return list(
+            map(
+                lambda dataset: {
+                    'id': 'dataset',
+                    'value': {
+                        'href': f'/{outputFile}',
+                        'mimeType': 'text/csv'
+                    }
+                },
+                datasets
+            )
+        )
 
     def __repr__(self):
         return '<LOFProcessor> {}'.format(self.name)

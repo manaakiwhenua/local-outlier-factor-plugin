@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: local-outlier-factor-plugin
-Version: 0.1.0
+Version: 1.0.0
 Summary: pygeoapi plugin that wraps sklearn.neighbors.LocalOutlierFactor for doing outlier/novelty detection on geospatial (point) datasets
 Home-page: https://github.com/manaakiwhenua/local-outlier-factor-plugin
 Author: Richard Law
