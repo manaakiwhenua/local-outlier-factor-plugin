@@ -11,7 +11,7 @@ setup(name='local-outlier-factor-plugin',
     install_requires=[
         'geopandas>=0.8.1',
         'numpy>=1.19.1',
-        'sklearn>=0.23.1'
+        'scikit-learn>=0.23.1'
     ],
     zip_safe=False
 )
